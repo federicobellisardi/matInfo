@@ -19,7 +19,7 @@ class Correction_report:
 
   def create_student_folder(self):
     try:
-      all_files = sorted(glob.glob(os.path.join(report_folder, "/*.pdf")))
+      all_files = sorted(glob.glob(os.path.join(report_folder, '*.pdf')))
       for filein in all_files:
         try:
           tok = filein.split('/')[-1].split('_')
@@ -37,7 +37,6 @@ class Correction_report:
       self.elenco = os.listdir(report_folder)
     except Exception as e:
       logging.error(f"[create_student_folder] Error: {e}")
-
 
 
   def dataframe_creation(self):
@@ -107,6 +106,7 @@ class Correction_report:
         logging.error(f"[send_warning] Error in sending mail to {row.email}")
       break
 
+
   def send_mark(self,username,pwd):
     valutazioni_path = os.path.join(matInfo, 'informatica','relazioni')
     for i, corso in enumerate(course_name):
@@ -163,7 +163,7 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('-c', '--cfg', help='json config file', required=True)
   parser.add_argument('-sf', '--sf', help='create students folder', action='store_true', default=True)
-  parser.add_argument('-df', '--df', help='marks dataframe creation', action='store_true', default=True)
+  parser.add_argument('-df', '--df', help='marks dataframe creation', action='store_true', default=False)
   parser.add_argument('-w', '--warning', help='send warning mail to missing students', action='store_true', default=False)
   parser.add_argument('-ms', '--ms', help='send mail to students with marks', action='store_true', default=False)
 
@@ -180,8 +180,7 @@ if __name__ == '__main__':
   username = config["username"]
   pwd = config["pwd"]
 
-
-  report_folder = os.path.join(matInfo, 'informatica','relazioni', f'{relazione_n}_relazione_test')
+  report_folder = os.path.join(matInfo, 'informatica','relazioni', f'{relazione_n}_relazione')
   text_folder = os.path.join(matInfo, 'informatica','relazioni', 'text_folder')
 
   logging.basicConfig(level=logging.DEBUG, filename=f"{report_folder}/logfile.log", filemode="a+",format="%(asctime)-15s %(levelname)-8s %(message)s")
